@@ -19,10 +19,6 @@ def app():
     #beta_column splits the page into vertical sections - this is two columns with the right hand side one 3x the size of the left
     require, questions = st.beta_columns([1,3])
 
-
-    #write lets you write anything (including dataframes and figures)
-    require.write('Required input nav')
-
     questions.write('Select from the following fields:')
 
     #beta_expander expands the field on click 
@@ -66,4 +62,7 @@ def app():
     if questions.button("Confirm Selection"):
         questions.write('Selection confirmed')
 
-
+    st.title('Disclaimer!')
+    st.write('Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. '
+             'Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.'
+             ' Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. ')
