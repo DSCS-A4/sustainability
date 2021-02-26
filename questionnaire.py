@@ -1,6 +1,7 @@
 # This is the questionnaire page (to be completed)
 
 import streamlit as st
+import questionnaire_data as qd
 
 def app():
     # Title and introduction
@@ -13,14 +14,12 @@ def app():
     # Question 1: select industries
     questions.markdown('**1. Select industries you have affinity with:**')
 
-    # Add options for question 1
-    energy=questions.checkbox('Energy')
-    materials=questions.checkbox('Materials')
-    industrials=questions.checkbox('Industrials')
-    healthcare=questions.checkbox('Healthcare')
-    telec=questions.checkbox('Telecommunications')
-    finance=questions.checkbox('Financials')
+    # Option 1: load categories from csv file
+    categories = qd.load_categories_csv('data/global_alphabetical.csv', 1, 2)
 
+    # Add checkbox for each category
+    for category in categories:
+        questions.checkbox(category)
 
     # Question 2: select sustainability priorities
     questions.markdown('**2. Select sustainability priorities:**')
