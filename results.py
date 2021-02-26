@@ -9,11 +9,6 @@ def app():
     st.title('Sustainable Investment Service')
     st.write('Results (Top 10 of selected investements)')
 
-    #sidebar is fixed call using sidebar
-    st.sidebar.title('Sidebar')
-    st.sidebar.write('For navigation or extra info pages')
-    st.sidebar.write('Or required info')
-
 
     TESTDATA = u"""\
                 Industry  Price  ESG_Score

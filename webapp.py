@@ -9,13 +9,14 @@ import streamlit as st
 # import plotly.graph_objects as go
 import questionnaire
 import results
+import sidebar
 
+# Define pages
 PAGES = {
     "Questionnaire": questionnaire,
     "Results": results
 }
 
-st.sidebar.title('Navigation')
-selection = st.sidebar.radio("Go to", list(PAGES.keys()))
-page = PAGES[selection]
+# Load active page
+page = PAGES[sidebar.show(PAGES)]
 page.app()
