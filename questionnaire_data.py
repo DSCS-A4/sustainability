@@ -4,6 +4,7 @@ import streamlit as st
 import csv
 import yfinance as yf
 
+
 # Load categories based on a csv file and column number
 def load_categories_csv(src, skips, col_nr):
     categories = []

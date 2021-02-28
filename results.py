@@ -3,33 +3,27 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
-from io import StringIO
+from combine_results import combine_dfs
+import plotly.express as px
+
 
 def app():
     st.title('Sustainable Investment Service')
     st.write('Results (Top 10 of selected investements)')
 
+    # Hardcoded dataframes to simulate input from previous steps (To be removed)
+    df1 = pd.DataFrame({'ticker': ["APPL", "GOOGL", "MSFT"], 'overall_score': [98.7, 56.2, 76],
+                        'E_score': [10, 30, 20], 'S_score': [15, 30, 60], 'G_score': [80, 25, 38]},
+                       columns=['ticker', 'overall_score', "E_score", "S_score", "G_score"])
+    df2 = pd.DataFrame({'ticker': ["APPL", "GOOGL", "MSFT"], 'Price_per_share': [112, 78, 230]},
+                       columns=['ticker', 'Price_per_share'])
 
-    TESTDATA = u"""\
-                Industry  Price  ESG_Score
-        Name                   
-        Fake-Inc      Telecom   2.0   A++
-        CompanyZ    Retail   5.0   A++
-        MyCorp    Telecom   8.0   A+
-        NewCompany  Banking  11.0  A+
-        DSCS    Banking  14.0  A+
-        Fake-Inc      Communications   2.0   A
-        CompanyZ    Insurance   5.0   A
-        MyCorp    Telecom   8.0   A
-        NewCompany  Communications  11.0  B+
-        DSCS    Communications  14.0  B
-    """
-
-    df = pd.read_csv(StringIO(TESTDATA), index_col=0, sep=r"\s+", engine='python')
-    st.table(df)
+    # Combine the results and show in a table
+    df = combine_dfs(df1, df2, "ticker", 'overall_score')
+    st.table(df.style.format({'overall_score': '{:.2f}'}))
 
     st.write('Market Trends for the selected industries')
-    chart_data = pd.DataFrame(
-        np.random.randn(20, 3),
-        columns = ['a', 'b', 'c'])
-    st.line_chart(chart_data)
+
+    fig = px.pie(df, values='overall_score', names='ticker')
+    fig.update_traces(textposition='inside', textinfo='percent+label')
+    st.plotly_chart(fig)
