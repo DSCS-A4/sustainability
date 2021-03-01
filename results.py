@@ -9,6 +9,23 @@ import plotly.express as px
 
 def app():
     st.title('Sustainable Investment Service')
+<<<<<<< Updated upstream
+=======
+
+    industry=["Advertising", "Trucking"] #put in selected industries
+
+    companies=get_companies_from_industries(industry).tolist()
+    print(companies, type(companies))
+
+    df2=test_financial_data(companies[0])
+    print(df2)
+
+    df3=get_esg_scores(companies)
+    print(df3)
+
+
+
+>>>>>>> Stashed changes
     st.write('Results (Top 10 of selected investements)')
 
     # Hardcoded dataframes to simulate input from previous steps (To be removed)
