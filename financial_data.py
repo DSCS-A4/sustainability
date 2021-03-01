@@ -3,7 +3,19 @@ import pandas as pd
 import json
 import requests
 
+def test_financial_data(ticker):
+    symbol = "?symbol=" + ticker
+    symbol
 
+    token = "&token=c0j6hdv48v6tlon085cg"
+    r = requests.get('https://finnhub.io/api/v1/stock/profile2' + symbol + token)
+    r = r.json()
+    df = pd.DataFrame.from_dict(r, orient="index", columns=[''])
+    return df
+    
+    # company_title = st.title(df.loc['name'][0])
+    # company_title
+    # st.table(df)
 
 def app():
     st.title("Financial Data Access Port")
