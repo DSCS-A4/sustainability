@@ -16,10 +16,10 @@ def app():
 
     # Option 1: load categories from csv file
     categories = qd.load_categories_csv('data/global_alphabetical.csv', 1, 2)
+    selected_categories = []
 
     # Add checkbox for each category
-    for category in categories:
-        questions.checkbox(category)
+    check_boxes = [questions.checkbox(category, key=category) for category in categories]
 
     # Question 2: select sustainability priorities
     questions.markdown('**2. Select sustainability priorities:**')
@@ -35,6 +35,7 @@ def app():
     # Add confirm button
     if questions.button("Confirm Selection"):
         questions.write('Selection confirmed')
+        checked_boxes = [category for category, checked in zip(categories, check_boxes) if checked]
 
     # Add disclaimer (TO DO)
     st.title('Disclaimer!')
