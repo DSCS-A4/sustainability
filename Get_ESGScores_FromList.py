@@ -18,9 +18,23 @@ def get_esg_scores(tickers):
 
     data = response.text
     df = pd.read_json(data, orient='records')
-    return df
 
-#todo
-#get tickers into list format
-#add tickers to this (from company stuff part)
-#keep only grades and scores per row
+    #tickers list to dataframe
+    tickers_df= pd.DataFrame(tickers, columns=['tickers'])
+
+    #print(tickers_df, tickers_df.info())
+
+    #tickers added to esg scores table
+
+    esg_scores=pd.concat([tickers_df,df], axis=1)
+    #esg_scores
+
+    #dropped not needed columns from final dataset
+    esg_scores.drop(['environment_level', 'social_level', 'governance_level', 'total_level', 'disclaimer', 'last_processing_date'], axis=1)
+    return esg_scores
+
+
+#todo 
+#get tickers into list format -- done
+#add tickers to this (from company stuff part) -- done
+#keep only grades and scores per row -- done
