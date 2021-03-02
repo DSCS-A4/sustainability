@@ -10,7 +10,7 @@ def load_categories_csv(src, skips, col_nr):
     categories = []
 
     # Open csv file
-    with open(src, newline='') as file:
+    with open(src, newline='', encoding="utf8") as file:
         r = csv.reader(file, delimiter=',', quotechar='"')
         for i, row in enumerate(r):
             # Skip header row(s)
