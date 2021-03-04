@@ -12,7 +12,7 @@ from Get_ESGScores_FromList import get_esg_scores
 def app(selected_industries, container):
     st.title('Sustainable Investment Service')
 
-    industry=selected_industries # put in selected industries
+    industry = selected_industries  # put in selected industries
     container.write(industry)
 
     companies = get_companies_from_industries(industry).tolist()

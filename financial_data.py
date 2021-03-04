@@ -16,7 +16,7 @@ def financial_data(tickers: list) -> pd.DataFrame:
 
     for ticker in tickers:
         r1 = requests.get('https://finnhub.io/api/v1/stock/profile2?symbol={}'.format(ticker) + token)
-        data1=json.loads(r1.text)
+        data1 = json.loads(r1.text)
         responses1.append(data1)
 
     df1 = pd.DataFrame.from_dict(responses1)
@@ -31,7 +31,7 @@ def financial_data(tickers: list) -> pd.DataFrame:
 
     for ticker in tickers:
         r3 = requests.get('https://finnhub.io/api/v1/news-sentiment?symbol={}'.format(ticker) + token)
-        data3=json.loads(r3.text)
+        data3 = json.loads(r3.text)
         responses3.append(data3)
 
 
@@ -45,7 +45,7 @@ def financial_data(tickers: list) -> pd.DataFrame:
 
     for ticker in tickers:
         r4 = requests.get('https://finnhub.io/api/v1/quote?symbol={}'.format(ticker) + token)
-        data4=json.loads(r4.text)
+        data4 = json.loads(r4.text)
         responses4.append(data4)
 
     df4 = pd.DataFrame.from_dict(responses4)
