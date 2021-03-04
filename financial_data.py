@@ -1,52 +1,59 @@
 import streamlit as st
+import numpy as np
 import pandas as pd
 import json
 import requests
 
-def test_financial_data(ticker):
-    symbol = "?symbol=" + ticker
-    symbol
+# API KEY
+token = "&token=c0j6hdv48v6tlon085cg"
 
-    token = "&token=c0j6hdv48v6tlon085cg"
-    r = requests.get('https://finnhub.io/api/v1/stock/profile2' + symbol + token)
-    r = r.json()
-    df = pd.DataFrame.from_dict(r, orient="index", columns=[''])
-    return df
-    
-    # company_title = st.title(df.loc['name'][0])
-    # company_title
-    # st.table(df)
 
-def app():
-    st.title("Financial Data Access Port")
-    st.write("Please enter the 'Ticker' or the 'Name' or the desired company, the results will be shown below:")
-    st.write("So far, the API endpoint used is from Finnhub Company Profile 2, news sentiment and basic financials. Defo gotta extend this.")
+def financial_data(tickers: list) -> pd.DataFrame:
 
-#company profile
-    symbol = "?symbol=" + st.text_input(label='Ticker')
-    symbol
+    # Getting the CompanyProfile2 endpoint from finnhub and taking certain ones out
 
-    token = "&token=c0j6hdv48v6tlon085cg"
-    r = requests.get('https://finnhub.io/api/v1/stock/profile2' + symbol + token)
-    r = r.json()
-    df = pd.DataFrame.from_dict(r, orient="index", columns=[''])
+    responses1 = list()
 
-    company_title = st.title(df.loc['name'][0])
-    company_title
-    st.table(df)
+    for ticker in tickers:
+        r1 = requests.get('https://finnhub.io/api/v1/stock/profile2?symbol={}'.format(ticker) + token)
+        data1=json.loads(r1.text)
+        responses1.append(data1)
 
-#news sentiment
-    st.header("News Sentiment")
-    r1 = requests.get('https://finnhub.io/api/v1/news-sentiment' + symbol + token)
-    r1 = r1.json()
-    df1 = pd.DataFrame.from_dict(r1)
-    df1 = df1.drop(['symbol'], axis=1)
-    st.table(df1)
+    df1 = pd.DataFrame.from_dict(responses1)
+    df1 = df1.drop(columns=['phone', 'logo'])
+    df1 = df1.rename(columns={'country':'Country', 'currency':'Currency', 'exchange':'Exchange',
+                              'finnhubIndustry':'Industry', 'ipo':'IPO', 'marketCapitalization':'Market Capitalization',
+                              'name':'Name', 'shareOutstanding':'Share Outstanding', 'ticker':'Ticker', 'weburl':'URL'})
 
-#basic financials
-    st.header("Basic Financials")
-    r2 = requests.get('https://finnhub.io/api/v1/stock/metric' + symbol + "&metric=all" + token)
-    r2 = r2.json()
-    df2 = pd.DataFrame.from_dict(r2)
-    df2 = df2.drop(['metricType', 'series', 'symbol'], axis=1)
-    st.table(df2)
+    #only select CompanyNewsScore from the sentiment score endpoint
+
+    responses3 = list()
+
+    for ticker in tickers:
+        r3 = requests.get('https://finnhub.io/api/v1/news-sentiment?symbol={}'.format(ticker) + token)
+        data3=json.loads(r3.text)
+        responses3.append(data3)
+
+
+    df3 = pd.DataFrame.from_dict(responses3)
+    df3 = pd.DataFrame(df3['companyNewsScore'])
+    df3 = df3.rename(columns={'companyNewsScore':'Company News Score'})
+
+    # select current stock price from the quote endpoint
+
+    responses4 = list()
+
+    for ticker in tickers:
+        r4 = requests.get('https://finnhub.io/api/v1/quote?symbol={}'.format(ticker) + token)
+        data4=json.loads(r4.text)
+        responses4.append(data4)
+
+    df4 = pd.DataFrame.from_dict(responses4)
+    df4 = df4.drop(columns=['h', 'l', 'o', 'pc', 't'])
+    df4 = df4.rename(columns={'c': 'Current Stock Price'})
+
+    # adding everything together, rearranging the columns
+
+    finaldf = pd.concat([df1, df3, df4], axis=1)
+    finaldf = finaldf[['Ticker', 'Name', 'Country', 'Currency', 'Exchange', 'Industry', 'IPO', 'Current Stock Price', 'Market Capitalization', 'Share Outstanding', 'Company News Score', 'URL']]
+    return finaldf

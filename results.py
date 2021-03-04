@@ -2,30 +2,28 @@
 
 import streamlit as st
 import pandas as pd
-import numpy as np
 from combine_results import combine_dfs
 import plotly.express as px
 from industries_to_companies import get_companies_from_industries
-from financial_data import test_financial_data
+from financial_data import financial_data
 from Get_ESGScores_FromList import get_esg_scores
 
-def app(selected_industries, container):
-    container.title('Sustainable Investment Service')
 
-    industry=selected_industries#["Advertising", "Trucking"] #put in selected industries
+def app(selected_industries, container):
+    st.title('Sustainable Investment Service')
+
+    industry=selected_industries # put in selected industries
     container.write(industry)
 
-    companies=get_companies_from_industries(industry).tolist()
+    companies = get_companies_from_industries(industry).tolist()
     container.write(companies)
-    #print(companies, type(companies))
+    print(companies, type(companies))
     
-    df2=test_financial_data(companies)
+    df2 = financial_data(companies)
     print(df2)
 
-    #df3=get_esg_scores(companies)
-    #print(df3)
-
-    
+    # df3 = get_esg_scores(companies)
+    # print(df3)
 
     container.write('Results (Top 10 of selected investements)')
 

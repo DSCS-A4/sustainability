@@ -2,7 +2,6 @@
 
 import streamlit as st
 import csv
-import yfinance as yf
 from itertools import groupby
 
 
