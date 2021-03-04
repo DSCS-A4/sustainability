@@ -4,13 +4,10 @@ import pandas as pd
 import json
 import requests
 
-#API KEY
+# API KEY
 token = "&token=c0j6hdv48v6tlon085cg"
 
-
-
-#List the tickers you want here
-
+# List the tickers you want here
 
 tickers = ['AAPL', 'TSLA', 'GOOGL']
 
@@ -26,15 +23,13 @@ def financial_data(tickers: list) -> pd.DataFrame:
         data1=json.loads(r1.text)
         responces1.append(data1)
 
-
-
     df1 = pd.DataFrame.from_dict(responces1)
     df1 = df1.drop(columns=['phone', 'logo'])
-    df1 = df1.rename(columns={'country':'Country', 'currency':'Currency', 'exchange':'Exchange', 'finnhubIndustry':'Industry', 'ipo':'IPO', 'marketCapitalization':'Market Capitalization', 'name':'Name', 'shareOutstanding':'Share Outstanding', 'ticker':'Ticker', 'weburl':'URL'})
-
+    df1 = df1.rename(columns={'country':'Country', 'currency':'Currency', 'exchange':'Exchange',
+                              'finnhubIndustry':'Industry', 'ipo':'IPO', 'marketCapitalization':'Market Capitalization',
+                              'name':'Name', 'shareOutstanding':'Share Outstanding', 'ticker':'Ticker', 'weburl':'URL'})
 
     #only select CompanyNewsScore from the sentiment score endpoint
-
 
     responces3 = list()
 
@@ -44,11 +39,9 @@ def financial_data(tickers: list) -> pd.DataFrame:
         responces3.append(data3)
 
 
-
     df3 = pd.DataFrame.from_dict(responces3)
     df3 = pd.DataFrame(df3['companyNewsScore'])
     df3 = df3.rename(columns={'companyNewsScore':'Company News Score'})
-
 
     # select current stock price from the quote endpoint
 
@@ -59,14 +52,11 @@ def financial_data(tickers: list) -> pd.DataFrame:
         data4=json.loads(r4.text)
         responces4.append(data4)
 
-
-
     df4 = pd.DataFrame.from_dict(responces4)
     df4 = df4.drop(columns=['h', 'l', 'o', 'pc', 't'])
-    df4 = df4.rename(columns={'c':'Current Stock Price'})
+    df4 = df4.rename(columns={'c': 'Current Stock Price'})
 
-
-    #adding everything together, rearranging the columns
+    # adding everything together, rearranging the columns
 
     finaldf = pd.concat([df1, df3, df4], axis=1)
     finaldf = finaldf[['Ticker', 'Name', 'Country', 'Currency', 'Exchange', 'Industry', 'IPO', 'Current Stock Price', 'Market Capitalization', 'Share Outstanding', 'Company News Score', 'URL']]

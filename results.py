@@ -13,18 +13,17 @@ from Get_ESGScores_FromList import get_esg_scores
 def app():
     st.title('Sustainable Investment Service')
 
-    industry=["Advertising", "Trucking"] #put in selected industries
+    industry = ["Advertising", "Trucking"] # put in selected industries
+    print(industry)
 
-    companies=get_companies_from_industries(industry).tolist()
+    companies = get_companies_from_industries(industry).tolist()
     print(companies, type(companies))
     
-    df2= financial_data(companies)
+    df2 = financial_data(companies)
     print(df2)
 
-    df3=get_esg_scores(companies)
-    print(df3)
-
-    
+    # df3 = get_esg_scores(companies)
+    # print(df3)
 
     st.write('Results (Top 10 of selected investements)')
 
