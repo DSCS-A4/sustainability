@@ -7,23 +7,19 @@ import requests
 # API KEY
 token = "&token=c0j6hdv48v6tlon085cg"
 
-# List the tickers you want here
-
-tickers = ['AAPL', 'TSLA', 'GOOGL']
-
 
 def financial_data(tickers: list) -> pd.DataFrame:
 
     # Getting the CompanyProfile2 endpoint from finnhub and taking certain ones out
 
-    responces1 = list()
+    responses1 = list()
 
     for ticker in tickers:
         r1 = requests.get('https://finnhub.io/api/v1/stock/profile2?symbol={}'.format(ticker) + token)
         data1=json.loads(r1.text)
-        responces1.append(data1)
+        responses1.append(data1)
 
-    df1 = pd.DataFrame.from_dict(responces1)
+    df1 = pd.DataFrame.from_dict(responses1)
     df1 = df1.drop(columns=['phone', 'logo'])
     df1 = df1.rename(columns={'country':'Country', 'currency':'Currency', 'exchange':'Exchange',
                               'finnhubIndustry':'Industry', 'ipo':'IPO', 'marketCapitalization':'Market Capitalization',
@@ -31,28 +27,28 @@ def financial_data(tickers: list) -> pd.DataFrame:
 
     #only select CompanyNewsScore from the sentiment score endpoint
 
-    responces3 = list()
+    responses3 = list()
 
     for ticker in tickers:
         r3 = requests.get('https://finnhub.io/api/v1/news-sentiment?symbol={}'.format(ticker) + token)
         data3=json.loads(r3.text)
-        responces3.append(data3)
+        responses3.append(data3)
 
 
-    df3 = pd.DataFrame.from_dict(responces3)
+    df3 = pd.DataFrame.from_dict(responses3)
     df3 = pd.DataFrame(df3['companyNewsScore'])
     df3 = df3.rename(columns={'companyNewsScore':'Company News Score'})
 
     # select current stock price from the quote endpoint
 
-    responces4 = list()
+    responses4 = list()
 
     for ticker in tickers:
         r4 = requests.get('https://finnhub.io/api/v1/quote?symbol={}'.format(ticker) + token)
         data4=json.loads(r4.text)
-        responces4.append(data4)
+        responses4.append(data4)
 
-    df4 = pd.DataFrame.from_dict(responces4)
+    df4 = pd.DataFrame.from_dict(responses4)
     df4 = df4.drop(columns=['h', 'l', 'o', 'pc', 't'])
     df4 = df4.rename(columns={'c': 'Current Stock Price'})
 

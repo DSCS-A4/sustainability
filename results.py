@@ -2,7 +2,6 @@
 
 import streamlit as st
 import pandas as pd
-import numpy as np
 from combine_results import combine_dfs
 import plotly.express as px
 from industries_to_companies import get_companies_from_industries
