@@ -4,7 +4,7 @@ import pandas as pd
 
 
 def get_esg_scores(tickers):
-    # tickers = ["AAPL", "TSLA", "XRX"]
+    tickers = ["AAPL", "TSLA", "XRX"]
     qts = ','.join(tickers)
     # print(qts)
 

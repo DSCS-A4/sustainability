@@ -22,8 +22,8 @@ def app():
     df2 = financial_data(companies)
     print(df2)
 
-    df3 = get_esg_scores(companies)
-    print(df3)
+    # df3 = get_esg_scores(companies)
+    # print(df3)
 
     st.write('Results (Top 10 of selected investements)')
 
