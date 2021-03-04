@@ -10,17 +10,17 @@ from Get_ESGScores_FromList import get_esg_scores
 
 
 def app(selected_industries, container):
-    st.title('Sustainable Investment Service')
-
     industry=selected_industries # put in selected industries
-    container.write(industry)
 
-    companies = get_companies_from_industries(industry).tolist()
-    container.write(companies)
-    print(companies, type(companies))
+    if industry:
+        container.write(industry)
+        companies = get_companies_from_industries(industry).tolist()
     
-    df2 = financial_data(companies)
-    print(df2)
+    container.write(companies)
+    #print(companies, type(companies))
+    
+    #df2 = financial_data(companies)
+    #print(df2)
 
     # df3 = get_esg_scores(companies)
     # print(df3)
@@ -43,4 +43,3 @@ def app(selected_industries, container):
     fig = px.pie(df, values='overall_score', names='ticker')
     fig.update_traces(textposition='inside', textinfo='percent+label')
     container.plotly_chart(fig)
-

@@ -4,8 +4,8 @@ import streamlit as st
 import questionnaire_data as qd
 
 def app(container):
-    # Title and introduction
-    container.title('Sustainable Investment Service')
+
+    # Introduction
     container.write('Questionnaire (further explanation...)')
 
     # Split page into vertical sections, 1 to 3
