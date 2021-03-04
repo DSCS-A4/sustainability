@@ -9,23 +9,25 @@ from industries_to_companies import get_companies_from_industries
 from financial_data import test_financial_data
 from Get_ESGScores_FromList import get_esg_scores
 
-def app():
-    st.title('Sustainable Investment Service')
+def app(selected_industries, container):
+    container.title('Sustainable Investment Service')
 
-    industry=["Advertising", "Trucking"] #put in selected industries
+    industry=selected_industries#["Advertising", "Trucking"] #put in selected industries
+    container.write(industry)
 
     companies=get_companies_from_industries(industry).tolist()
+    container.write(companies)
     #print(companies, type(companies))
     
-    df2=test_financial_data(companies[0])
-    #print(df2)
+    df2=test_financial_data(companies)
+    print(df2)
 
-    df3=get_esg_scores(companies)
+    #df3=get_esg_scores(companies)
     #print(df3)
 
     
 
-    st.write('Results (Top 10 of selected investements)')
+    container.write('Results (Top 10 of selected investements)')
 
     # Hardcoded dataframes to simulate input from previous steps (To be removed)
     df1 = pd.DataFrame({'ticker': ["APPL", "GOOGL", "MSFT"], 'overall_score': [98.7, 56.2, 76],
@@ -36,10 +38,11 @@ def app():
 
     # Combine the results and show in a table
     df = combine_dfs(df1, df2, "ticker", 'overall_score')
-    st.table(df.style.format({'overall_score': '{:.2f}'}))
+    container.table(df.style.format({'overall_score': '{:.2f}'}))
 
-    st.write('Market Trends for the selected industries')
+    container.write('Market Trends for the selected industries')
 
     fig = px.pie(df, values='overall_score', names='ticker')
     fig.update_traces(textposition='inside', textinfo='percent+label')
-    st.plotly_chart(fig)
+    container.plotly_chart(fig)
+
