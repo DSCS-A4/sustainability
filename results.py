@@ -6,8 +6,9 @@ import numpy as np
 from combine_results import combine_dfs
 import plotly.express as px
 from industries_to_companies import get_companies_from_industries
-from financial_data import test_financial_data
+from financial_data import financial_data
 from Get_ESGScores_FromList import get_esg_scores
+
 
 def app():
     st.title('Sustainable Investment Service')
@@ -15,13 +16,13 @@ def app():
     industry=["Advertising", "Trucking"] #put in selected industries
 
     companies=get_companies_from_industries(industry).tolist()
-    #print(companies, type(companies))
+    print(companies, type(companies))
     
-    df2=test_financial_data(companies[0])
-    #print(df2)
+    df2= financial_data(companies)
+    print(df2)
 
     df3=get_esg_scores(companies)
-    #print(df3)
+    print(df3)
 
     
 
