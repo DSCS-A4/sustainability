@@ -5,6 +5,7 @@ import os
 
 #function
 ticker = "KO"
+
 def get_ESG (ticker):
     ticker_y = yf.Ticker(ticker)
     esg_data = pd.DataFrame.transpose(ticker_y.sustainability)
