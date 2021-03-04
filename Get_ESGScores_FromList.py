@@ -3,38 +3,29 @@ import requests
 import pandas as pd
 
 
-#LIST TICKERS 2 QUERY STRING TO QUERY -- YESSS!!!!
-##might need adapting based on how the list looks like (of companies;)
 def get_esg_scores(tickers):
-    # tickers=["AAPL", "TSLA", "XRX"]
+    tickers = ["AAPL", "TSLA", "XRX"]
     qts = ','.join(tickers)
-    #print(qts)
+    # print(qts)
 
-    url='https://tf689y3hbj.execute-api.us-east-1.amazonaws.com/prod/authorization/search?&token=4cb3eee013a380a2ac987066c4f1721c'
-    query = {"q":qts}
+    url = 'https://tf689y3hbj.execute-api.us-east-1.amazonaws.com/prod/authorization/search?&token=4cb3eee013a380a2ac987066c4f1721c'
+    query = {"q": qts}
 
     response = requests.request("GET", url, params=query)
-    # print(response.json())
+    print(response.json())
 
     data = response.text
     df = pd.read_json(data, orient='records')
 
-    #tickers list to dataframe
-    tickers_df= pd.DataFrame(tickers, columns=['tickers'])
+    # tickers list to dataframe
+    tickers_df = pd.DataFrame(tickers, columns=['tickers'])
 
-    #print(tickers_df, tickers_df.info())
+    # print(tickers_df, tickers_df.info())
 
-    #tickers added to esg scores table
+    esg_scores = pd.concat([tickers_df, df], axis=1)
+    # esg_scores
 
-    esg_scores=pd.concat([tickers_df,df], axis=1)
-    #esg_scores
-
-    #dropped not needed columns from final dataset
-    esg_scores.drop(['environment_level', 'social_level', 'governance_level', 'total_level', 'disclaimer', 'last_processing_date'], axis=1)
+    # dropped not needed columns from final dataset
+    esg_scores.drop(['environment_level', 'social_level', 'governance_level', 'total_level',
+                     'disclaimer', 'last_processing_date'], axis=1)
     return esg_scores
-
-
-#todo 
-#get tickers into list format -- done
-#add tickers to this (from company stuff part) -- done
-#keep only grades and scores per row -- done

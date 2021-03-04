@@ -4,6 +4,7 @@ import streamlit as st
 import questionnaire
 import results
 import sidebar
+import SessionState
 
 # Define pages
 PAGES = {
@@ -11,6 +12,7 @@ PAGES = {
     "Results": results
 }
 
-# Load active page
-page = PAGES[sidebar.show(PAGES)]
-page.app()
+session_state = SessionState.get(selected_industries=[])
+
+session_state.selected_industries = questionnaire.app(st)
+results.app(session_state.selected_industries, st)
