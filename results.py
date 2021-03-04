@@ -15,13 +15,13 @@ def app():
     industry=["Advertising", "Trucking"] #put in selected industries
 
     companies=get_companies_from_industries(industry).tolist()
-    print(companies, type(companies))
+    #print(companies, type(companies))
     
     df2=test_financial_data(companies[0])
-    print(df2)
+    #print(df2)
 
-    df3=get_esg_scores(companies )
-    print(df3)
+    df3=get_esg_scores(companies)
+    #print(df3)
 
     
 

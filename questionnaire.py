@@ -15,11 +15,11 @@ def app():
     questions.markdown('**1. Select industries you have affinity with:**')
 
     # Option 1: load categories from csv file
-    categories = qd.load_categories_csv('data/global_alphabetical.csv', 1, 2)
-    selected_industries = []
+    sector_industries = qd.load_sectors_industries_csv('data/company_industry_sector.csv', 1, 3, 7)
+    selected_sectors = []
 
     # Add checkbox for each category
-    check_boxes = [questions.checkbox(category, key=category) for category in categories]
+    check_boxes = [questions.checkbox(sector, key=sector) for sector in [sector_industries[x][0] for x in range(len(sector_industries))]]
 
     # Question 2: select sustainability priorities
     questions.markdown('**2. Select sustainability priorities:**')
@@ -35,7 +35,8 @@ def app():
     # Add confirm button
     if questions.button("Confirm Selection"):
         questions.write('Selection confirmed')
-        selected_industries = [category for category, checked in zip(categories, check_boxes) if checked]
+        selected_sectors = [sector for sector, checked in zip([sector[0] for sector in sector_industries], check_boxes) if checked]
+        selected_industries = qd.get_industries_from_sectors(sector_industries, selected_sectors)
 
     # Add disclaimer (TO DO)
     st.title('Disclaimer!')
