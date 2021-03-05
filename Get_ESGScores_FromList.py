@@ -26,5 +26,6 @@ def get_esg_scores(tickers):
     # esg_scores
 
     # dropped not needed columns from final dataset
-    esg_scores.drop(['environment_level', 'social_level', 'governance_level', 'total_level', 'disclaimer', 'last_processing_date'], axis=1)
+    esg_scores.drop(['environment_level', 'social_level', 'governance_level', 'total_level',
+                     'disclaimer', 'last_processing_date'], axis=1)
     return esg_scores

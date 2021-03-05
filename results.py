@@ -6,7 +6,8 @@ from combine_results import combine_dfs
 import plotly.express as px
 from industries_to_companies import get_companies_from_industries
 from financial_data import financial_data
-from Get_ESGScores_FromList import get_esg_scores
+#from Get_ESGScores_FromList import get_esg_scores
+from YFinance_Function.py import get_ESG
 
 
 def app(selected_industries, container):
@@ -22,8 +23,9 @@ def app(selected_industries, container):
     #df2 = financial_data(companies)
     #print(df2)
 
-    # df3 = get_esg_scores(companies)
-    # print(df3)
+
+    df3 = get_ESG(companies)
+    print(df3)
 
     container.write('Results (Top 10 of selected investements)')
 
