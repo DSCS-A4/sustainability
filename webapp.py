@@ -3,7 +3,6 @@
 import streamlit as st
 import questionnaire
 import results
-import sidebar
 import SessionState
 
 # Input title
