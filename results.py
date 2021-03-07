@@ -5,6 +5,15 @@ import pandas as pd
 import numpy as np
 from combine_results import combine_dfs
 import plotly.express as px
+<<<<<<< Updated upstream
+=======
+from industries_to_companies import get_companies_from_industries
+from financial_data import financial_data
+#from Get_ESGScores_FromList import get_esg_scores
+#from YFinance_Function import get_ESG
+from YFin_Funct_0703 import ESG_tick
+
+>>>>>>> Stashed changes
 
 
 def app():
@@ -20,10 +29,26 @@ def app():
     df2=test_financial_data(companies[0])
     print(df2)
 
+<<<<<<< Updated upstream
     df3=get_esg_scores(companies)
     print(df3)
 
 
+=======
+        if industry:
+            container.write(industry)
+            companies = get_companies_from_industries(industry).tolist()
+
+        container.write(companies)
+        #print(companies, type(companies))
+
+        #df2 = financial_data(companies)
+        #print(df2)
+
+
+        df3 = ESG_tick(companies)
+        print(df3)
+>>>>>>> Stashed changes
 
 >>>>>>> Stashed changes
     st.write('Results (Top 10 of selected investements)')
