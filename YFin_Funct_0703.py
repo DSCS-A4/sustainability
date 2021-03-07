@@ -25,10 +25,10 @@ def ESG_tick(tickers):
                 temp['company_ticker'] = str(i_y.ticker)
                 print(temp)
                 #esg= esg.append(temp)
-            
+
         except IndexError:
             pass
-        
+
 
 
 # In[10]:
@@ -38,7 +38,3 @@ ESG_tick(tickers)
 
 
 # In[ ]:
-
-
-
-
