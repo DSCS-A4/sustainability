@@ -29,8 +29,6 @@ def ESG_tick(tickers):
         except IndexError:
             pass
 
-
-
 # In[10]:
 
 
