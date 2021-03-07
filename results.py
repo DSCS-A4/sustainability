@@ -23,10 +23,10 @@ def app(selected_industries, container, status):
         if industry:
             container.write(industry)
             companies = get_companies_from_industries(industry).tolist()
-        
+
         container.write(companies)
         #print(companies, type(companies))
-        
+
         #df2 = financial_data(companies)
         #print(df2)
 
