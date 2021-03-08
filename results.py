@@ -27,6 +27,10 @@ def app(selected_industries, container, status):
             print("GETTING SUSTAINABILITY DATA")
             df2 = get_sustainability_score(companies)
             print(df2)
+            # Check that both dataframes are not empty before attempting to join
+            if not df1.empty and not df2.empty:
+                final_result = combine_dfs(df1, df2, "Ticker", 'environmentScore')
+                print(final_result)
 
         container.write('Results (Top 10 of selected investements)')
 

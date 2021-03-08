@@ -14,7 +14,7 @@ def get_sustainability_score(tickers):
         try:
             if i_y.sustainability is not None:
                 temp = pd.DataFrame.transpose(i_y.sustainability)
-                temp['company_ticker'] = str(i_y.ticker)
+                temp['Ticker'] = str(i_y.ticker)
                 result = result.append(temp)
         except IndexError:
             pass
