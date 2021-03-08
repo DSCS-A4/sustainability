@@ -6,33 +6,27 @@ from combine_results import combine_dfs
 import plotly.express as px
 from industries_to_companies import get_companies_from_industries
 from financial_data import financial_data
-#from Get_ESGScores_FromList import get_esg_scores
-from YFinance_Function import get_ESG
+from YFin_Funct_0703 import get_sustainability_score
 
 
 def app(selected_industries, container, status):
 
     # Only run this if the app is in the results phase
     if status == 1:
-
         # Introduction
         container.write('Find below your results')
 
-        industry=selected_industries # put in selected industries
+        industry = selected_industries  # put in selected industries
 
         if industry:
-            container.write(industry)
+            # container.write(industry)
             companies = get_companies_from_industries(industry).tolist()
-
-        container.write(companies)
-        #print(companies, type(companies))
-
-        #df2 = financial_data(companies)
-        #print(df2)
-
-
-        #df3 = get_ESG(companies)
-        #print(df3)
+            print("GETTING FINANCIAL DATA")
+            df1 = financial_data(companies)
+            print(df1)
+            print("GETTING SUSTAINABILITY DATA")
+            df2 = get_sustainability_score(companies)
+            print(df2)
 
         container.write('Results (Top 10 of selected investements)')
 
