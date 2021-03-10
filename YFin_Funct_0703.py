@@ -15,7 +15,10 @@ def get_sustainability_score(tickers):
             if i_y.sustainability is not None:
                 temp = pd.DataFrame.transpose(i_y.sustainability)
                 temp['Ticker'] = str(i_y.ticker)
+                print(temp)
                 result = result.append(temp)
+                if result.shape[0]>2:
+                    return result
         except IndexError:
             pass
         except KeyError:
