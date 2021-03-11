@@ -19,19 +19,24 @@ container_results = holder_results.beta_container()
 # Use the SessionState to save the list of selected industries and status
 # Status 0: questionnaire phase
 # Status 1: results phase
-session_state = SessionState.get(selected_industries=[], status=0)
+session_state = SessionState.get(selected_industries=[], selected_priority='', 
+    status=0)
 
 # Launch the questionnaire and save the returned industries in the session state
 # and save the new status (1) in session state so that the results are launched
-session_state.selected_industries, session_state.status = questionnaire.app(container_questionnaire, session_state.status)
+session_state.selected_industries, session_state.selected_priority, \
+    session_state.status = questionnaire.app(container_questionnaire, \
+    session_state.status)
 
 # Launch the results if the status is 1
 if session_state.status == 1:
-    # Launch the results and give the selected industries as argument
-    results.app(session_state.selected_industries, container_results, session_state.status)
-
     # Empty the questionnaire placeholder to show the results placeholder
     holder_questionnaire.empty()
+
+    # Launch the results and give the selected industries as argument
+    results.app(session_state.selected_industries, 
+        session_state.selected_priority, container_results, session_state.status)
+
 
 # Add disclaimer (TO DO)
 st.title('Disclaimer!')

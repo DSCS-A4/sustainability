@@ -9,8 +9,7 @@ from financial_data import financial_data
 from YFin_Funct_0703 import get_sustainability_score
 
 
-def app(selected_industries, container, status):
-
+def app(selected_industries, selected_priority, container, status):
     # Only run this if the app is in the results phase
     if status == 1:
         # Introduction
@@ -19,7 +18,6 @@ def app(selected_industries, container, status):
         industry = selected_industries  # put in selected industries
 
         if industry:
-            # container.write(industry)
             companies = get_companies_from_industries(industry).tolist()
             print(companies)
             #Remove nans
@@ -44,7 +42,7 @@ def app(selected_industries, container, status):
             print(df1)
             # Check that both dataframes are not empty before attempting to join
             if not df1.empty and not df2.empty:
-                final_result = combine_dfs(df1, df2, "Ticker", 'totalEsg')
+                final_result = combine_dfs(df1, df2, "Ticker", selected_priority)
                 print(final_result)
                 print(final_result.columns)
 

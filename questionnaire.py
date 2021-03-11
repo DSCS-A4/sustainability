@@ -21,27 +21,31 @@ def app(container, status):
         selected_sectors = []
 
         # Add checkbox for each category
-        check_boxes = [questions.checkbox(sector, key=sector) for sector in [sector_industries[x][0] for x in range(len(sector_industries))]]
+        category_boxes = [questions.checkbox(sector, key=sector) for sector in [sector_industries[x][0] for x in range(len(sector_industries))]]
 
         # Question 2: select sustainability priorities
         questions.markdown('**2. Select sustainability priorities:**')
 
         # Add options for question 2
-        energy=questions.checkbox('Social sustainability')
-        materials=questions.checkbox('Environmental sustainability')
+        selected_priority = questions.radio('', ['Environmental sustainability', 
+            'Social sustainability', 'Governance sustainability'])
 
-        # Question 3: input stock price indication 
-        questions.markdown('**3. Input stock price indication:**')
-        price_indication = questions.number_input('', value=50.0, min_value=0.0, step=10.0)    
-        
+        # Translate selected option to table column name
+        if selected_priority == 'Environmental sustainability':
+            selected_priority = 'environmentScore'
+        elif selected_priority == 'Social sustainability':
+            selected_priority = 'socialScore'
+        else:
+            selected_priority = 'governanceScore'
+
         # Add confirm button
         if questions.button("Confirm Selection"):
             questions.write('Selection confirmed')
-            selected_sectors = [sector for sector, checked in zip([sector[0] for sector in sector_industries], check_boxes) if checked]
+            selected_sectors = [sector for sector, checked in zip([sector[0] for sector in sector_industries], category_boxes) if checked]
             selected_industries = qd.get_industries_from_sectors(sector_industries, selected_sectors)
             
             # If the confirm button is clicked return status 1, so that the
             # app moves on to the results
-            return selected_industries, 1
+            return selected_industries, selected_priority, 1
         else:
-            return [], 0
+            return [], '', 0
